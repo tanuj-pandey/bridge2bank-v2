@@ -25,8 +25,8 @@ export class AIAssistantService {
   private currentLanguage = 'en';
 
   // API configuration for future use
-  private readonly API_BASE_URL = 'https://api.example.com'; // Replace with your API endpoint
-  private API_TOKEN = ''; // Will be set when available
+  private readonly API_BASE_URL = 'https://knowledge-engine-587531239051.asia-south1.run.app/engine/getData?text='; // Replace with your API endpoint
+  private API_TOKEN = 'testing'; // Will be set when available
 
   constructor(private schemeService: SchemeService) {
     this.initializeSpeechRecognition();
@@ -175,9 +175,9 @@ export class AIAssistantService {
 
   private async sendToAPI(text: string, type: 'text' | 'voice'): Promise<void> {
     try {
-      const response = await fetch(`${this.API_BASE_URL}/chat`, {
-        method: 'POST',
-        headers: {
+      const response = await fetch(`${this.API_BASE_URL}`+text, {
+        method: 'GET',
+        /*headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${this.API_TOKEN}`
         },
@@ -186,7 +186,7 @@ export class AIAssistantService {
           type,
           userId: this.userId,
           language: this.currentLanguage
-        })
+        })*/
       });
       
       const data = await response.json();
@@ -199,16 +199,43 @@ export class AIAssistantService {
   }
 
   private handleAPIResponse(data: any): void {
+    let schemes = [];
+    console.log("data.schemes", data.schemes)
+    for(let i=0; i < data.schemes.length; i++) {
+      schemes.push({
+        id: '',
+        title: data.schemes[i].name,
+        description: data.schemes[i].description,
+        category: {
+          id: '',
+          name: data.schemes[i].name,
+          icon: '',
+          description: data.schemes[i].description,
+          color: ''
+        },
+        ministry: '',
+        eligibility: '',
+        benefits: [],
+        applicationProcess: [],
+        documents: [],
+        website: data.schemes[i].url,
+        lastUpdated: new Date(),
+        featured: false,
+        status: 'active'
+      });
+    }
+
     const botMessage: ChatMessage = {
       id: this.generateMessageId(),
-      text: data.message || data.text,
+      text: data.message || data.text || data.answer || '',
       sender: 'bot',
       timestamp: new Date(),
-      type: 'text',
-      schemes: data.schemes || []
+      type: 'scheme-recommendation',
+      schemes: schemes as any || []
     };
-    
+    console.log(botMessage);
     this.messages.update((messages) => [...messages, botMessage]);
+    
     
     // Speak the response if voice is enabled
     if (data.enableVoice) {

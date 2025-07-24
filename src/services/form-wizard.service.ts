@@ -8,6 +8,7 @@ import {
 import { SCHEME_FINDER_STEPS } from '../data/form-wizard-config';
 import { SchemeService } from './scheme.service';
 import { Scheme } from '../types/scheme.interface';
+import { ChatMessage } from '../types/ai-assistant.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -17,11 +18,16 @@ export class FormWizardService {
   private formData = signal<FormData>({});
   private isLoading = signal<boolean>(false);
   private schemeMatches = signal<SchemeMatch[]>([]);
+  private schemes = signal<ChatMessage[]>([]);
 
   constructor(private schemeService: SchemeService) {}
 
   getCurrentStep() {
     return this.currentStep.asReadonly();
+  }
+
+  getSchemes() {
+    return this.schemes.asReadonly();
   }
 
   getFormData() {
@@ -181,6 +187,78 @@ export class FormWizardService {
       this.isLoading.set(false);
     }
   }
+
+    async findSchemes(): Promise<void> {
+      this.isLoading.set(true);
+      let text = 'Recommend Financial Product for ';
+      for (let key in this.formData()) {
+        text += key + ' ' + this.formData()[key] + ' and ';
+      }
+
+      try {
+        // Simulate API delay
+        const response = await fetch(`https://knowledge-engine-587531239051.asia-south1.run.app/engine/getData?text=`+text, {
+          method: 'GET',
+          /*headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${this.API_TOKEN}`
+          },
+          body: JSON.stringify({
+            message: text,
+            type,
+            userId: this.userId,
+            language: this.currentLanguage
+          })*/
+        });
+        
+        const data = await response.json();
+        let schemes = [];
+      console.log("data.schemes", data.schemes)
+      for(let i=0; i < data.schemes.length; i++) {
+        schemes.push({
+          id: '',
+          title: data.schemes[i].name,
+          description: data.schemes[i].description,
+          category: {
+            id: '',
+            name: data.schemes[i].name,
+            icon: '',
+            description: data.schemes[i].description,
+            color: ''
+          },
+          ministry: '',
+          eligibility: '',
+          benefits: [],
+          applicationProcess: [],
+          documents: [],
+          website: data.schemes[i].url,
+          lastUpdated: new Date(),
+          featured: false,
+          status: 'active'
+        });
+      }
+  
+      const botMessage: ChatMessage = {
+        id: this.generateMessageId(),
+        text: data.message || data.text || data.answer || '',
+        sender: 'bot',
+        timestamp: new Date(),
+        type: 'scheme-recommendation',
+        schemes: schemes as any || []
+      };
+      console.log(botMessage);
+      this.schemes.update((schemes) => [...schemes, botMessage]);
+        
+      } finally {
+        console.log('finally-set isLoading to false');
+        this.isLoading.set(false);
+      }
+    }
+
+
+    generateMessageId(): string {
+      return Date.now().toString() + Math.random().toString(36).substr(2, 9);
+    }
 
   private calculateSchemeMatch(
     scheme: Scheme,

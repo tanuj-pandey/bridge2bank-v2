@@ -2,6 +2,60 @@ import { FormStep } from '../types/form-wizard.interface';
 
 export const SCHEME_FINDER_STEPS: FormStep[] = [
   {
+    id: 'region',
+    title: 'Tell us about your region',
+    fields: [
+      {
+        id: 'Country',
+        type: 'radio',
+        label: 'Country',
+        required: true,
+        options: [
+          { value: 'Global', label: 'Global' },
+          { value: 'India', label: 'India' },
+          { value: 'France', label: 'France' },
+          { value: 'Germany', label: 'Germany' },
+          { value: 'Islamic', label: 'Islamic' }
+        ]
+      }
+    ]
+  },
+  {
+    id: 'occupation',
+    title: 'Tell us about your occupation',
+    fields: [
+      {
+        id: 'Occupation',
+        type: 'radio',
+        label: 'Occupation',
+        required: true,
+        options: [
+          { value: 'Individual', label: 'Individual' },
+          { value: 'Housewife', label: 'Housewife' },
+          { value: 'Student', label: 'Student' },
+          { value: 'Farmer', label: 'Farmer' }
+        ]
+      }
+    ]
+  },
+  {
+    id: 'products',
+    title: 'Tell us about your products',
+    fields: [
+      {
+        id: 'products',
+        type: 'radio',
+        label: 'Products',
+        required: true,
+        options: [
+          { value: 'Investment', label: 'Investment' },
+          { value: 'Loan', label: 'Loan' },
+          { value: 'Insurance', label: 'Insurance' }
+        ]
+      }
+    ]
+  },
+  /*{
     id: 'personal-info',
     title: 'Tell us about yourself, you are a...',
     fields: [
@@ -230,5 +284,5 @@ export const SCHEME_FINDER_STEPS: FormStep[] = [
         ]
       }
     ]
-  }
+  }*/
 ];

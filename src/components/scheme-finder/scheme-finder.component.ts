@@ -162,7 +162,7 @@ import { SchemeCardComponent } from '../scheme-card/scheme-card.component';
 
           <div class="loading-state" *ngIf="wizardService.getIsLoading()()">
             <div class="loading-spinner"></div>
-            <p>Finding the best schemes for you...</p>
+            <p>Finding the best products for you...</p>
           </div>
 
           <div class="schemes-results" *ngIf="!wizardService.getIsLoading()()">

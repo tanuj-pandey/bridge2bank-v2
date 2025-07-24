@@ -31,7 +31,7 @@ import { FormData, FormField } from '../../types/form-wizard.interface';
           <div class="assistant-info">
             <span class="assistant-avatar">🤖</span>
             <div class="assistant-details">
-              <span class="assistant-name">Financial Schemes Assistant</span>
+              <span class="assistant-name">Financial Products Assistant</span>
               <span class="assistant-status online">Online</span>
             </div>
           </div>
@@ -50,13 +50,13 @@ import { FormData, FormField } from '../../types/form-wizard.interface';
           <!-- Welcome Message -->
           <div class="welcome-section" *ngIf="!hasStartedConversation">
             <div class="welcome-message">
-              <h3>Welcome! I'm here to help you find financial schemes</h3>
+              <h3>Welcome! I'm here to help you find financial products</h3>
               <p>I can help you in two ways:</p>
               <div class="welcome-options">
                 <button class="option-btn" (click)="startSchemeFinder()" type="button">
                   <span class="option-icon">🎯</span>
                   <div class="option-content">
-                    <span class="option-title">Find Schemes for You</span>
+                    <span class="option-title">Find Financial Products for You</span>
                     <span class="option-desc">Answer questions to get personalized recommendations</span>
                   </div>
                 </button>
@@ -64,7 +64,7 @@ import { FormData, FormField } from '../../types/form-wizard.interface';
                   <span class="option-icon">💬</span>
                   <div class="option-content">
                     <span class="option-title">Ask Questions</span>
-                    <span class="option-desc">Chat with me about any financial scheme</span>
+                    <span class="option-desc">Chat with me about any financial products</span>
                   </div>
                 </button>
               </div>
@@ -184,16 +184,16 @@ import { FormData, FormField } from '../../types/form-wizard.interface';
           <!-- Scheme Results -->
           <div class="results-section" *ngIf="showResults">
             <div class="results-header">
-              <h4>Recommended Schemes for You</h4>
+              <h4>Recommended Products for You</h4>
               <button class="back-btn" (click)="backToForm()" type="button">← Back to Form</button>
             </div>
 
             <div class="loading-state" *ngIf="wizardService.getIsLoading()()">
               <div class="loading-spinner"></div>
-              <p>Finding the best schemes for you...</p>
+              <p>Finding the best products for you...</p>
             </div>
 
-            <div class="schemes-results" *ngIf="!wizardService.getIsLoading()()">
+            <!-- <div class="schemes-results" *ngIf="!wizardService.getIsLoading()()">
               <div 
                 *ngFor="let match of schemeMatches().slice(0, 3)" 
                 class="scheme-result"
@@ -225,6 +225,31 @@ import { FormData, FormField } from '../../types/form-wizard.interface';
               >
                 View All {{ schemeMatches().length }} Results
               </button>
+            </div> -->
+
+            <div 
+              *ngFor="let message of schemes(); trackBy: trackByMessage"
+              class="message"
+            >
+              <div class="message-content">
+                <div class="message-text">{{ message.text }}</div>
+                <div class="message-schemes" *ngIf="message.schemes && message.schemes.length > 0">
+                  <div class="schemes-grid">
+                    <div 
+                      *ngFor="let scheme of message.schemes.slice(0, 5)"
+                      class="mini-scheme-card"
+                      (click)="viewSchemeDetails(scheme)"
+                    >
+                      <h6>{{ scheme.title }}</h6>
+                      <p>{{ scheme.description }}</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="message-time">
+                  {{ message.timestamp | date:'short' }}
+                  <span *ngIf="message.type === 'voice'" class="voice-indicator">🎤</span>
+                </div>
+              </div>
             </div>
 
             <div class="results-actions">
@@ -255,7 +280,7 @@ import { FormData, FormField } from '../../types/form-wizard.interface';
                 <div class="message-schemes" *ngIf="message.schemes && message.schemes.length > 0">
                   <div class="schemes-grid">
                     <div 
-                      *ngFor="let scheme of message.schemes.slice(0, 2)"
+                      *ngFor="let scheme of message.schemes.slice(0, 5)"
                       class="mini-scheme-card"
                       (click)="viewSchemeDetails(scheme)"
                     >
@@ -1186,6 +1211,7 @@ export class WebchatComponent implements OnInit, OnDestroy, AfterViewChecked {
   stepFormData: FormData = {};
   currentStepData = this.wizardService.getCurrentStepData();
   schemeMatches = this.wizardService.getSchemeMatches();
+  schemes = this.wizardService.getSchemes();
 
   // AI Assistant State
   messages = this.aiService.getMessages();
@@ -1302,10 +1328,16 @@ export class WebchatComponent implements OnInit, OnDestroy, AfterViewChecked {
     this.updateCurrentStep();
   }
 
-  async findSchemes(): Promise<void> {
+  /*async findSchemes(): Promise<void> {
     this.showResults = true;
     this.showSchemeFinder = false;
     await this.wizardService.findMatchingSchemes();
+  }*/
+
+  async findSchemes(): Promise<void> {
+    this.showResults = true;
+    this.showSchemeFinder = false;
+    await this.wizardService.findSchemes();
   }
 
   skipToResults(): void {
