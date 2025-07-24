@@ -158,6 +158,14 @@ import { FormData, FormField } from '../../types/form-wizard.interface';
                   >
                     ← Previous
                   </button>
+
+                  <button 
+                    class="nav-btn nav-btn-outline"
+                    (click)="skipToResults()"
+                    type="button"
+                  >
+                    Skip to Results
+                  </button>
                   
                   <button 
                     class="nav-btn primary"
@@ -1298,6 +1306,11 @@ export class WebchatComponent implements OnInit, OnDestroy, AfterViewChecked {
     this.showResults = true;
     this.showSchemeFinder = false;
     await this.wizardService.findMatchingSchemes();
+  }
+
+  skipToResults(): void {
+    this.wizardService.updateFormData(this.stepFormData);
+    this.findSchemes();
   }
 
   backToForm(): void {
