@@ -518,11 +518,13 @@ export class AIAssistantService {
     }
   
     const langCode = this.detectGoogleLang().split('-')[0];
+  
     const voiceMap: { [key: string]: string } = {
       'en': 'UK English Female',
       'hi': 'Hindi Female',
       'fr': 'French Female'
     };
+  
     const voiceName = voiceMap[langCode] || 'UK English Female';
   
     const speakTranslated = (translated: string) => {
@@ -536,15 +538,25 @@ export class AIAssistantService {
       });
     };
   
-    // If language is not English, translate text first
     if (langCode !== 'en') {
-      const encodedText = encodeURIComponent(text);
-      const url = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=${langCode}&dt=t&q=${encodedText}`;
+      const apiKey = 'AIzaSyD6wODbrfTNyeZGNySkmd12k-Opw93PjaA';
+      const url = `https://translation.googleapis.com/language/translate/v2?key=${apiKey}`;
   
-      fetch(url)
+      fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          q: text,
+          source: 'en',
+          target: langCode,
+          format: 'text',
+        }),
+      })
         .then(res => res.json())
         .then(data => {
-          const translated = data[0].map((d: any) => d[0]).join('');
+          const translated = data?.data?.translations?.[0]?.translatedText;
           console.log('Translated Text:', translated);
           speakTranslated(translated);
         })
@@ -556,8 +568,6 @@ export class AIAssistantService {
       speakTranslated(text);
     }
   }
-  
-  
   
 
   clearChat(): void {
