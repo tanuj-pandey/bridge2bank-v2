@@ -512,11 +512,15 @@ export class AIAssistantService {
 
   speakText(text: string): void {
     if (this.synthesis) {
-      // Cancel any ongoing speech
+       // Cancel any ongoing speech
       this.synthesis.cancel();
-
+  
       const utterance = new SpeechSynthesisUtterance(text);
-      
+  
+      // Always detect latest lang from Google Translate cookie
+      const detectedLang = this.detectGoogleLang().split('-')[0]; // e.g., 'hi' from 'hi-IN'
+      this.currentLanguage = detectedLang;
+  
       const languageMap: { [key: string]: string } = {
         'en': 'en-IN',
         'hi': 'hi-IN',
@@ -524,11 +528,11 @@ export class AIAssistantService {
         'gu': 'gu-IN',
         'bn': 'bn-IN'
       };
-      
+  
       utterance.lang = languageMap[this.currentLanguage] || 'en-IN';
       utterance.rate = 0.9;
       utterance.pitch = 1;
-
+  
       this.synthesis.speak(utterance);
     }
   }
