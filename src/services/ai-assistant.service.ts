@@ -59,7 +59,11 @@ export class AIAssistantService {
       this.recognition = new SpeechRecognition();
       this.recognition.continuous = false;
       this.recognition.interimResults = false;
-      this.updateSpeechLanguage();
+
+      const observer = new MutationObserver(() => {
+        this.updateLanguage(this.detectGoogleLang());
+      });
+      observer.observe(document.documentElement, {attributes : true, attributeFilter: ['lang']});
 
       this.recognition.onresult = (event: any) => {
         const transcript = event.results[0][0].transcript;
@@ -75,6 +79,11 @@ export class AIAssistantService {
         this.isListening.set(false);
       };
     }
+  }
+
+  private detectGoogleLang(): string {
+    const match = document.cookie.match(/googtrans=\/[a-z]{2}\/([a-z-]{2,5})/i);
+    return match ? match[1] : 'en-IN';
   }
 
   private updateSpeechLanguage(): void {
