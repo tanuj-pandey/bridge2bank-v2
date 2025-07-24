@@ -6,7 +6,8 @@
     "start": "ng serve",
     "build": "ng build",
     "dev": "ng serve",
-    "deploy:docs": "ng build --output-path=docs --base-href='/bridge2bank-v2/'"
+    "build:docs": "ng build demo --configuration production --output-path=docs --base-href=/bridge2bank-v2/",
+    "deploy:docs": "npm run build:docs && npx cpy docs/browser/**/* docs/"
   },
   "dependencies": {
     "@angular/animations": "^20.0.0",
@@ -25,6 +26,7 @@
     "@angular/build": "^20.0.0",
     "@angular/cli": "^20.0.0",
     "@angular/compiler-cli": "^20.0.0",
+    "cpy-cli": "^5.0.0",
     "typescript": "^5.8.2"
   }
 }
