@@ -8,6 +8,9 @@ import {
 import { Scheme } from '../types/scheme.interface';
 import { SchemeService } from './scheme.service';
 
+declare const responsiveVoice: any;
+
+
 @Injectable({
   providedIn: 'root',
 })
@@ -511,40 +514,36 @@ export class AIAssistantService {
   }
 
   speakText(text: string): void {
-    if (this.synthesis) {
-      this.synthesis.cancel();
-  
-      const utterance = new SpeechSynthesisUtterance(text);
-  
-      // Detect and set language
-      const detectedLang = this.detectGoogleLang().split('-')[0]; // e.g., 'hi'
-      this.currentLanguage = detectedLang;
-  
-      const languageMap: { [key: string]: string } = {
-        'en': 'en-IN',
-        'hi': 'hi-IN',
-        'mr': 'mr-IN',
-        'gu': 'gu-IN',
-        'bn': 'bn-IN',
-      };
-  
-      const selectedLang = languageMap[this.currentLanguage] || 'en-IN';
-      utterance.lang = selectedLang;
-      utterance.rate = 0.9;
-      utterance.pitch = 1;
-  
-      // 💡 Select a voice that matches the language
-      const voices = this.synthesis.getVoices();
-      const voice = voices.find((v: SpeechSynthesisVoice) => v.lang === selectedLang);
-      if (voice) {
-        utterance.voice = voice;
-      } else {
-        console.warn('No matching voice found for', selectedLang);
-      }
-  
-      this.synthesis.speak(utterance);
+    if (typeof responsiveVoice === 'undefined') {
+      console.error('ResponsiveVoice.js is not loaded');
+      return;
     }
+  
+    // Detect current language
+    const detectedLang = this.detectGoogleLang().split('-')[0]; // e.g., 'hi'
+    this.currentLanguage = detectedLang;
+  
+    // Map to ResponsiveVoice voices
+    const voiceMap: { [key: string]: string } = {
+      'en': 'UK English Female',
+      'hi': 'Hindi Female',
+      'mr': 'Marathi Female',
+      'gu': 'Gujarati Female',
+      'bn': 'Bangla Female',
+    };
+  
+    const voiceName = voiceMap[this.currentLanguage] || 'UK English Female';
+  
+    responsiveVoice.speak(text, voiceName, {
+      rate: 1,
+      pitch: 1,
+      volume: 1,
+      onstart: () => console.log(`Speaking started in ${voiceName}...`),
+      onend: () => console.log('Speaking ended.'),
+      onerror: (e: any) => console.error('Error in ResponsiveVoice:', e),
+    });
   }
+  
   
 
   clearChat(): void {
