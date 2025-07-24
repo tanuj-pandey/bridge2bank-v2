@@ -328,8 +328,8 @@ import { FormData, FormField } from '../../types/form-wizard.interface';
   styles: [`
     .webchat-container {
       position: fixed;
-      bottom: var(--space-6);
-      right: var(--space-6);
+      bottom: -24%;
+      right: 0;
       z-index: 1500;
       font-family: inherit;
     }
