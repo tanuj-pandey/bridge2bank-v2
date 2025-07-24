@@ -512,13 +512,12 @@ export class AIAssistantService {
 
   speakText(text: string): void {
     if (this.synthesis) {
-       // Cancel any ongoing speech
       this.synthesis.cancel();
   
       const utterance = new SpeechSynthesisUtterance(text);
   
-      // Always detect latest lang from Google Translate cookie
-      const detectedLang = this.detectGoogleLang().split('-')[0]; // e.g., 'hi' from 'hi-IN'
+      // Detect and set language
+      const detectedLang = this.detectGoogleLang().split('-')[0]; // e.g., 'hi'
       this.currentLanguage = detectedLang;
   
       const languageMap: { [key: string]: string } = {
@@ -526,16 +525,27 @@ export class AIAssistantService {
         'hi': 'hi-IN',
         'mr': 'mr-IN',
         'gu': 'gu-IN',
-        'bn': 'bn-IN'
+        'bn': 'bn-IN',
       };
   
-      utterance.lang = languageMap[this.currentLanguage] || 'en-IN';
+      const selectedLang = languageMap[this.currentLanguage] || 'en-IN';
+      utterance.lang = selectedLang;
       utterance.rate = 0.9;
       utterance.pitch = 1;
+  
+      // 💡 Select a voice that matches the language
+      const voices = this.synthesis.getVoices();
+      const voice = voices.find((v: SpeechSynthesisVoice) => v.lang === selectedLang);
+      if (voice) {
+        utterance.voice = voice;
+      } else {
+        console.warn('No matching voice found for', selectedLang);
+      }
   
       this.synthesis.speak(utterance);
     }
   }
+  
 
   clearChat(): void {
     this.messages.set([]);
