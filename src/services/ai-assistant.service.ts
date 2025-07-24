@@ -94,9 +94,7 @@ export class AIAssistantService {
       const languageMap: { [key: string]: string } = {
         'en': 'en-IN',
         'hi': 'hi-IN',
-        'mr': 'mr-IN',
-        'gu': 'gu-IN',
-        'bn': 'bn-IN'
+        'fr': 'fr-FR'
       };
       this.recognition.lang = languageMap[this.currentLanguage] || 'en-IN';
     }
@@ -523,9 +521,7 @@ export class AIAssistantService {
     const voiceMap: { [key: string]: string } = {
       'en': 'UK English Female',
       'hi': 'Hindi Female',
-      'mr': 'Marathi Female',
-      'gu': 'Gujarati Female',
-      'bn': 'Bangla Female',
+      'fr': 'French Female'
     };
     const voiceName = voiceMap[langCode] || 'UK English Female';
   
