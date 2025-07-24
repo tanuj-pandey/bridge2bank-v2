@@ -328,8 +328,8 @@ import { FormData, FormField } from '../../types/form-wizard.interface';
   styles: [`
     .webchat-container {
       position: fixed;
-      bottom: var(--space-6);
-      right: var(--space-6);
+      bottom: 5px;
+      right: 5px;
       z-index: 1500;
       font-family: inherit;
     }
@@ -382,10 +382,10 @@ import { FormData, FormField } from '../../types/form-wizard.interface';
 
     .chat-interface {
       position: absolute;
-      bottom: 80px;
+      bottom: 0;
       right: 0;
       width: 450px;
-      height: 700px;
+      height: 100vh;
       background: white;
       border-radius: var(--radius-2xl);
       box-shadow: var(--shadow-xl);
