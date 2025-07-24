@@ -519,11 +519,10 @@ export class AIAssistantService {
       return;
     }
   
-    // Detect current language
-    const detectedLang = this.detectGoogleLang().split('-')[0]; // e.g., 'hi'
+    // Detect language (e.g., 'hi' from 'hi-IN')
+    const detectedLang = this.detectGoogleLang().split('-')[0];
     this.currentLanguage = detectedLang;
   
-    // Map to ResponsiveVoice voices
     const voiceMap: { [key: string]: string } = {
       'en': 'UK English Female',
       'hi': 'Hindi Female',
@@ -534,16 +533,40 @@ export class AIAssistantService {
   
     const voiceName = voiceMap[this.currentLanguage] || 'UK English Female';
   
-    responsiveVoice.speak(text, voiceName, {
-      rate: 1,
-      pitch: 1,
-      volume: 1,
-      onstart: () => console.log(`Speaking started in ${voiceName}...`),
-      onend: () => console.log('Speaking ended.'),
-      onerror: (e: any) => console.error('Error in ResponsiveVoice:', e),
-    });
-  }
+    // Translate before speaking (if language is not English)
+    if (this.currentLanguage !== 'en') {
+      const encodedText = encodeURIComponent(text);
+      const translateUrl = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=${this.currentLanguage}&dt=t&q=${encodedText}`;
   
+      fetch(translateUrl)
+        .then(res => res.json())
+        .then(data => {
+          const translatedText = data[0].map((d: any) => d[0]).join('');
+          responsiveVoice.speak(translatedText, voiceName, {
+            rate: 1,
+            pitch: 1,
+            volume: 1,
+            onstart: () => console.log(`Speaking started in ${voiceName}...`),
+            onend: () => console.log('Speaking ended.'),
+            onerror: (e: any) => console.error('Error in ResponsiveVoice:', e),
+          });
+        })
+        .catch(err => {
+          console.error('Translation failed, falling back to original text:', err);
+          responsiveVoice.speak(text, voiceName);
+        });
+    } else {
+      // Speak as-is if English
+      responsiveVoice.speak(text, voiceName, {
+        rate: 1,
+        pitch: 1,
+        volume: 1,
+        onstart: () => console.log(`Speaking started in ${voiceName}...`),
+        onend: () => console.log('Speaking ended.'),
+        onerror: (e: any) => console.error('Error in ResponsiveVoice:', e),
+      });
+    }
+  }
   
 
   clearChat(): void {
