@@ -15,11 +15,11 @@ import { CommonModule } from '@angular/common';
                 <span class="logo-icon">🏛️</span>
                 <div class="logo-text">
                   <span class="logo-title">MyScheme</span>
-                  <span class="logo-subtitle">Government of India</span>
+                  <span class="logo-subtitle">financial of India</span>
                 </div>
               </div>
               <p class="footer-description">
-                Empowering citizens with easy access to government schemes, 
+                Empowering citizens with easy access to financial schemes, 
                 subsidies, and benefits across India.
               </p>
             </div>
@@ -85,9 +85,9 @@ import { CommonModule } from '@angular/common';
               <a href="#" class="legal-link">RTI</a>
             </div>
             <div class="footer-copyright">
-              <p>© {{ currentYear }} Government of India. All rights reserved.</p>
+              <p>© {{ currentYear }} financial of India. All rights reserved.</p>
               <p class="website-policy">
-                This is a citizen-centric portal for government schemes information.
+                This is a citizen-centric portal for financial schemes information.
               </p>
             </div>
           </div>

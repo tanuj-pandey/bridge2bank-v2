@@ -12,7 +12,7 @@ import { SchemeCategory } from '../../types/scheme.interface';
         <div class="section-header">
           <h2 class="section-title">Browse by Category</h2>
           <p class="section-description">
-            Explore government schemes organized by different categories to find what you need
+            Explore financial schemes organized by different categories to find what you need
           </p>
         </div>
         

@@ -31,7 +31,7 @@ import { FormData, FormField } from '../../types/form-wizard.interface';
           <div class="assistant-info">
             <span class="assistant-avatar">🤖</span>
             <div class="assistant-details">
-              <span class="assistant-name">Government Schemes Assistant</span>
+              <span class="assistant-name">Financial Schemes Assistant</span>
               <span class="assistant-status online">Online</span>
             </div>
           </div>
@@ -44,13 +44,13 @@ import { FormData, FormField } from '../../types/form-wizard.interface';
             </button>
           </div>
         </div>
-
+        <div id="google_translate_element"></div>
         <!-- Chat Content -->
         <div class="chat-content" #chatContent>
           <!-- Welcome Message -->
           <div class="welcome-section" *ngIf="!hasStartedConversation">
             <div class="welcome-message">
-              <h3>Welcome! I'm here to help you find government schemes</h3>
+              <h3>Welcome! I'm here to help you find financial schemes</h3>
               <p>I can help you in two ways:</p>
               <div class="welcome-options">
                 <button class="option-btn" (click)="startSchemeFinder()" type="button">
@@ -64,7 +64,7 @@ import { FormData, FormField } from '../../types/form-wizard.interface';
                   <span class="option-icon">💬</span>
                   <div class="option-content">
                     <span class="option-title">Ask Questions</span>
-                    <span class="option-desc">Chat with me about any government scheme</span>
+                    <span class="option-desc">Chat with me about any financial scheme</span>
                   </div>
                 </button>
               </div>
@@ -284,7 +284,7 @@ import { FormData, FormField } from '../../types/form-wizard.interface';
           <div class="input-container">
             <input
               type="text"
-              placeholder="Ask about government schemes..."
+              placeholder="Ask about financial schemes..."
               [(ngModel)]="inputMessage"
               (keyup.enter)="sendMessage()"
               class="message-input"

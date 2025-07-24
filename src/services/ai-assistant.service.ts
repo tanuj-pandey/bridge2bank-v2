@@ -109,7 +109,7 @@ export class AIAssistantService {
   private addWelcomeMessage(): void {
     const welcomeMessage: ChatMessage = {
       id: this.generateMessageId(),
-      text: "Hello! I'm your AI assistant for government schemes. I can help you find schemes based on your eligibility, answer questions about specific schemes, or guide you through our personalized scheme finder. How can I help you today?",
+      text: "Hello! I'm your AI assistant for financial schemes. I can help you find schemes based on your eligibility, answer questions about specific schemes, or guide you through our personalized scheme finder. How can I help you today?",
       sender: 'bot',
       timestamp: new Date(),
       type: 'text',
@@ -339,7 +339,7 @@ export class AIAssistantService {
 
     // Default response
     this.addBotMessage(
-      'I can help you find government schemes based on your needs. You can ask me about:\n\n• Agriculture and farming schemes\n• Education scholarships\n• Health insurance programs\n• Employment and skill development\n• Women and child welfare schemes\n\nWhat type of scheme are you looking for?'
+      'I can help you find financial schemes based on your needs. You can ask me about:\n\n• Agriculture and farming schemes\n• Education scholarships\n• Health insurance programs\n• Employment and skill development\n• Women and child welfare schemes\n\nWhat type of scheme are you looking for?'
     );
   }
 

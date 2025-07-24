@@ -18,10 +18,10 @@ interface Scheme {
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, FormsModule, SchemeFinderComponent, WebchatComponent],
+  imports: [CommonModule, FormsModule, WebchatComponent], //SchemeFinderComponent
   template: `
+  <!--
     <div class="app">
-      <!-- Header -->
       <header class="header">
         <div class="container">
           <div class="header-content">
@@ -42,13 +42,11 @@ interface Scheme {
         </div>
       </header>
 
-      <!-- Hero Section -->
       <section class="hero">
         <div class="container">
-          <h1 class="hero-title">Discover Government Schemes</h1>
-          <p class="hero-subtitle">Find and apply for government schemes designed for you</p>
+          <h1 class="hero-title">Discover financial Schemes</h1>
+          <p class="hero-subtitle">Find and apply for financial schemes designed for you</p>
           
-          <!-- Find Schemes Button -->
           <div class="hero-actions">
             <button class="btn btn-primary btn-large" (click)="openSchemeFinder()" type="button">
               <span class="btn-icon">🎯</span>
@@ -62,7 +60,6 @@ interface Scheme {
         </div>
       </section>
 
-      <!-- Schemes List -->
       <section class="schemes-section">
         <div class="container">
           <h2 class="section-title">Available Schemes</h2>
@@ -81,7 +78,6 @@ interface Scheme {
         </div>
       </section>
 
-      <!-- Scheme Detail Modal -->
       <div *ngIf="selectedScheme()" class="modal-overlay" (click)="closeModal()">
         <div class="modal-content" (click)="$event.stopPropagation()">
           <div class="modal-header">
@@ -107,8 +103,8 @@ interface Scheme {
       </div>
     </div>
     
-    <!-- Scheme Finder Modal -->
     <app-scheme-finder *ngIf="showSchemeFinder()"></app-scheme-finder>
+-->
     
     <!-- Custom Webchat -->
     <app-webchat></app-webchat>

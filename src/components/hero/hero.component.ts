@@ -16,11 +16,11 @@ import { FormsModule } from '@angular/forms';
         <div class="hero-content fade-in">
           <div class="hero-text">
             <h1 class="hero-title">
-              Discover Government Schemes
+              Discover financial Schemes
               <span class="highlight">Designed for You</span>
             </h1>
             <p class="hero-description">
-              Find and apply for government schemes, subsidies, and benefits. 
+              Find and apply for financial schemes, subsidies, and benefits. 
               Get personalized recommendations based on your eligibility and needs.
             </p>
           </div>

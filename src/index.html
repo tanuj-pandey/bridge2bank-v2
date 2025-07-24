@@ -10,21 +10,22 @@
     <script src="https://code.responsivevoice.org/responsivevoice.js?key=OoptvOU3"></script>
   </head>
   <body>
-    <div id="google_translate_element"></div>
+    
     <app-root>Loading...</app-root>
 
     <script type="text/javascript">
       function googleTranslateElementInit() {
-        new google.translate.TranslateElement(
-          {
-            pageLanguage: 'en',
-            includedLanguages: 'en,hi,fr', // ✅ English, Hindi, French
-            layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
-          },
-          'google_translate_element'
-        );
+        setTimeout(() => {
+          new google.translate.TranslateElement(
+            {
+              pageLanguage: 'en',
+              includedLanguages: 'en,hi,fr', // ✅ English, Hindi, French
+              layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+            },
+            'google_translate_element'
+          );
+        }, 1000);
       }
-
       let currentLanguage = 'en';
     </script>
   </body>

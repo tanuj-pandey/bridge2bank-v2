@@ -148,7 +148,7 @@ export const SCHEME_FINDER_STEPS: FormStep[] = [
           { value: 'unemployed', label: 'Unemployed' },
           { value: 'self-employed', label: 'Self Employed' },
           { value: 'private-employee', label: 'Private Employee' },
-          { value: 'government-employee', label: 'Government Employee' },
+          { value: 'financial-employee', label: 'financial Employee' },
           { value: 'daily-wage', label: 'Daily Wage Worker' },
           { value: 'business', label: 'Business Owner' },
           { value: 'retired', label: 'Retired' },

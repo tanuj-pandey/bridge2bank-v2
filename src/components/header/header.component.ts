@@ -13,7 +13,7 @@ import { FormsModule } from '@angular/forms';
           <div class="header-top-content">
             <div class="gov-branding">
               <span class="emblem">🇮🇳</span>
-              <span class="site-title">Government of India</span>
+              <span class="site-title">financial of India</span>
             </div>
             <div class="quick-links">
               <a href="#" class="quick-link">Hindi</a>
@@ -32,7 +32,7 @@ import { FormsModule } from '@angular/forms';
                 <span class="logo-icon">🏛️</span>
                 <div class="logo-text">
                   <span class="logo-title">MyScheme</span>
-                  <span class="logo-subtitle">Government Schemes Portal</span>
+                  <span class="logo-subtitle">financial Schemes Portal</span>
                 </div>
               </div>
             </div>
