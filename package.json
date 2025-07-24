@@ -5,7 +5,8 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
-    "dev": "ng serve"
+    "dev": "ng serve",
+    "deploy:docs": "ng build --output-path=docs --base-href='/bridge2bank-v2/'"
   },
   "dependencies": {
     "@angular/animations": "^20.0.0",

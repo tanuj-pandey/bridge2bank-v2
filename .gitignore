@@ -1,0 +1,49 @@
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+.pnpm-debug.log*
+
+# Angular build
+dist/
+tmp/
+temp/
+out-tsc/
+build/
+docs/  # optional if you're generating Angular builds here temporarily
+
+# Compiled output
+*.tsbuildinfo
+
+# IDEs and editors
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# Angular specific
+.angular/
+.angular-cache/
+coverage/
+karma-coverage/
+
+# Logs
+logs/
+*.log
+
+# Optional: if using GitHub Pages with /docs
+!docs/index.html
+!docs/assets/
