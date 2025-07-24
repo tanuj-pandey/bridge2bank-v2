@@ -1140,8 +1140,8 @@ import { FormData, FormField } from '../../types/form-wizard.interface';
       .chat-interface {
         width: calc(100vw - 2rem);
         height: calc(100vh - 6rem);
-        bottom: 80px;
-        right: -16px;
+        bottom: 0;
+        right: 0;
       }
 
       .message-content {
