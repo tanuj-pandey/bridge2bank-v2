@@ -203,7 +203,7 @@ export class FormWizardService {
       if (text === '') {
         text = 'Recommend Financial Product for ';
         for (let key in this.formData()) {
-          text += key + ' ' + this.formData()[key] + ' and ';
+          text += key + ' - ' + this.formData()[key] + ', ';
         }
       }
       

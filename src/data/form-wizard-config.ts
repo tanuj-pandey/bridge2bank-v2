@@ -11,7 +11,7 @@ export const SCHEME_FINDER_STEPS: FormStep[] = [
         label: 'Country',
         required: true,
         options: [
-          { value: 'Global', label: 'Global' },
+          { value: 'All', label: 'Global' },
           { value: 'India', label: 'India' },
           { value: 'France', label: 'France' },
           { value: 'Germany', label: 'Germany' },

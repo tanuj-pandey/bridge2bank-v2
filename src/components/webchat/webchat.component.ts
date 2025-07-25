@@ -50,13 +50,13 @@ import { FormData, FormField } from '../../types/form-wizard.interface';
           <!-- Welcome Message -->
           <div class="welcome-section" *ngIf="!hasStartedConversation">
             <div class="welcome-message">
-              <h3>Welcome! I'm here to assist you to explain the financial products as per your requirement</h3>
+              <h3>Welcome!<br />I'm here to assist you to explain the financial products as per your requirement</h3>
               <p>I can help you in two ways:</p>
               <div class="welcome-options">
                 <button class="option-btn" (click)="startSchemeFinder()" type="button">
                   <span class="option-icon">🎯</span>
                   <div class="option-content">
-                    <span class="option-title">Find Financial Product for You</span>
+                    <span class="option-title">Let's find a financial product for you</span>
                     <span class="option-desc">Answer questions to get the information about specific financial products you are looking for</span>
                   </div>
                 </button>
