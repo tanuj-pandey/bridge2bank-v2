@@ -466,7 +466,7 @@ import { FormData, FormField } from '../../types/form-wizard.interface';
       position: fixed;
       bottom: 5px;
       right: 5px;
-      z-index: -1;
+      z-index: 999;
       font-family: inherit;
     }
 
