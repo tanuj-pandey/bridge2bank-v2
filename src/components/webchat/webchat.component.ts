@@ -1333,10 +1333,10 @@ export class WebchatComponent implements OnInit, OnDestroy, AfterViewChecked {
   isTyping = this.aiService.getIsTyping();
 
   quickSuggestions = [
-    "What schemes are available for farmers?",
     "I'm a student looking for scholarships",
-    "Health insurance schemes",
-    "Employment programs"
+    "Health insurance products",
+    "Employment programs",
+    "What products are available for farmers?"
   ];
 
   isVideo = signal<boolean>(false);
