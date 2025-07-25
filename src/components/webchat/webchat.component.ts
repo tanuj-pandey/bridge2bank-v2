@@ -252,6 +252,19 @@ import { FormData, FormField } from '../../types/form-wizard.interface';
               </div>
             </div>
 
+            <div class="message bot-message" *ngIf="wizardService.getIsLoading()()">
+              <div class="message-avatar">
+                <span>🤖</span>
+              </div>
+              <div class="message-content">
+                <div class="typing-indicator">
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                </div>
+              </div>
+            </div>
+
             <div class="results-actions">
               <button class="action-btn-secondary" (click)="startOver()" type="button">
                 🔄 Start Over
@@ -1369,9 +1382,13 @@ export class WebchatComponent implements OnInit, OnDestroy, AfterViewChecked {
   viewSchemeDetails(scheme: any, type: 'scheme' | 'chat' = 'chat'): void {
     // Handle scheme details view
     console.log('View scheme details:', scheme);
+    const inputText = scheme.title + ' and ' + scheme.description; 
     if (type === 'scheme') {
-      const inputText = scheme.title + ' and ' + scheme.description; 
       this.findSchemes(inputText);
+    }
+    else {
+      console.log("send sugesstion/message");
+      this.sendSuggestion(inputText);
     }
 
   }

@@ -19,6 +19,7 @@ export class FormWizardService {
   private isLoading = signal<boolean>(false);
   private schemeMatches = signal<SchemeMatch[]>([]);
   private schemes = signal<ChatMessage[]>([]);
+  private isTyping = signal<boolean>(false);
 
   constructor(private schemeService: SchemeService) {}
 
@@ -28,6 +29,10 @@ export class FormWizardService {
 
   getSchemes() {
     return this.schemes.asReadonly();
+  }
+
+  getIsTyping() {
+    return this.isTyping.asReadonly();
   }
 
   getFormData() {
