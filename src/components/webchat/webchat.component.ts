@@ -135,14 +135,21 @@ import { FormData, FormField } from '../../types/form-wizard.interface';
                       *ngFor="let option of field.options" 
                       class="radio-option"
                       [class.selected]="stepFormData[field.id] === option.value"
+                     
                     >
+                      
                       <input
                         type="radio"
                         [name]="field.id"
                         [value]="option.value"
                         [(ngModel)]="stepFormData[field.id]"
                         class="radio-input"
+                         style="display:none;"
                       />
+                      <span class="field.id" style="padding: 0px 10px 0 0;">
+                        <img [src]="'assets/' + option.value + '.png'" width="10px" height="10px"/>
+                      </span>
+                      
                       <span class="radio-label">{{ option.label }}</span>
                     </label>
                   </div>
