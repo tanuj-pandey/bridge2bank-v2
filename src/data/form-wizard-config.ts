@@ -40,7 +40,7 @@ export const SCHEME_FINDER_STEPS: FormStep[] = [
   },
   {
     id: 'products',
-    title: 'Tell us about your products',
+    title: 'Select the product from below list',
     fields: [
       {
         id: 'products',

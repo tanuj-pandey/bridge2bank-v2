@@ -34,6 +34,10 @@ export class AIAssistantService {
     this.addWelcomeMessage();
   }
 
+  setMessages(message: ChatMessage[]): void {
+    this.messages.set(message);
+  }
+
   getMessages() {
     return this.messages.asReadonly();
   }

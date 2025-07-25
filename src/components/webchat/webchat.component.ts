@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ViewChild, ElementRef, AfterViewChecked } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, ElementRef, AfterViewChecked, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AIAssistantService } from '../../services/ai-assistant.service';
@@ -50,14 +50,14 @@ import { FormData, FormField } from '../../types/form-wizard.interface';
           <!-- Welcome Message -->
           <div class="welcome-section" *ngIf="!hasStartedConversation">
             <div class="welcome-message">
-              <h3>Welcome! I'm here to help you find financial products</h3>
+              <h3>Welcome! I'm here to assist you to explain the financial products as per your requirement</h3>
               <p>I can help you in two ways:</p>
               <div class="welcome-options">
                 <button class="option-btn" (click)="startSchemeFinder()" type="button">
                   <span class="option-icon">🎯</span>
                   <div class="option-content">
-                    <span class="option-title">Find Financial Products for You</span>
-                    <span class="option-desc">Answer questions to get personalized recommendations</span>
+                    <span class="option-title">Find Financial Product for You</span>
+                    <span class="option-desc">Answer questions to get the information about specific financial products you are looking for</span>
                   </div>
                 </button>
                 <button class="option-btn" (click)="startFreeChat()" type="button">
@@ -74,7 +74,7 @@ import { FormData, FormField } from '../../types/form-wizard.interface';
           <!-- Scheme Finder Form -->
           <div class="scheme-finder-section" *ngIf="showSchemeFinder && !showResults">
             <div class="finder-header">
-              <h4>Let's find the best schemes for you</h4>
+              <h4>Let's find the product details</h4>
               <button class="back-btn" (click)="backToWelcome()" type="button">← Back</button>
             </div>
 
@@ -174,7 +174,7 @@ import { FormData, FormField } from '../../types/form-wizard.interface';
                     type="button"
                   >
                     <span *ngIf="!wizardService.isLastStep()">Next →</span>
-                    <span *ngIf="wizardService.isLastStep()">Find Schemes</span>
+                    <span *ngIf="wizardService.isLastStep()">Find Product</span>
                   </button>
                 </div>
               </div>
@@ -245,6 +245,7 @@ import { FormData, FormField } from '../../types/form-wizard.interface';
                     </div>
                   </div>
                 </div>
+                <!-- <p><button (click)="showVideo()">Watch Video</button></p> -->
                 <div class="message-time">
                   {{ message.timestamp | date:'short' }}
                   <span *ngIf="message.type === 'voice'" class="voice-indicator">🎤</span>
@@ -269,7 +270,7 @@ import { FormData, FormField } from '../../types/form-wizard.interface';
               <button class="action-btn-secondary" (click)="startOver()" type="button">
                 🔄 Start Over
               </button>
-              <button class="action-btn-primary" (click)="startFreeChat()" type="button">
+              <button class="action-btn-primary" (click)="setMessages(); startFreeChat()" type="button">
                 💬 Ask Questions
               </button>
             </div>
@@ -302,6 +303,7 @@ import { FormData, FormField } from '../../types/form-wizard.interface';
                     </div>
                   </div>
                 </div>
+                <!-- <p><button (click)="showVideo()">Watch Video</button></p> -->
                 <div class="message-time">
                   {{ message.timestamp | date:'short' }}
                   <span *ngIf="message.type === 'voice'" class="voice-indicator">🎤</span>
@@ -370,13 +372,101 @@ import { FormData, FormField } from '../../types/form-wizard.interface';
         </div>
       </div>
     </div>
+
+    <div *ngIf="isVideo()" class="modal-overlay" (click)="closeModal()">
+        <div class="modal-content" (click)="$event.stopPropagation()">
+          <div class="modal-header">
+            <h2>Video</h2>
+            <button class="close-btn" (click)="closeModal()">×</button>
+          </div>
+          <div class="modal-body">
+          <iframe width="100%" height="400px" src="https://www.youtube.com/embed/V360AygOv7A?si=Nf-aYp6Zkh8a9xXh" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+          </div>
+        </div>
+      </div>
   `,
   styles: [`
+
+  /* Modal */
+  .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0,0,0,0.75);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      padding: 2rem;
+    }
+
+    .modal-content {
+      background: white;
+      border-radius: 12px;
+      max-width: 600px;
+      width: 100%;
+      max-height: 100vh;
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.5rem;
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    .modal-header h2 {
+      color: #1e293b;
+      font-size: 1.5rem;
+      font-weight: 600;
+    }
+
+    .close-btn {
+      background: none;
+      border: none;
+      font-size: 2rem;
+      color: #64748b;
+      cursor: pointer;
+      padding: 0;
+      line-height: 1;
+    }
+
+    .close-btn:hover {
+      color: #1e293b;
+    }
+
+    .modal-body {
+      padding: 1.5rem;
+    }
+
+    .modal-body p {
+      margin-bottom: 1rem;
+    }
+
+    .modal-body h3 {
+      color: #1e293b;
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin: 1.5rem 0 0.75rem 0;
+    }
+
+    .modal-body ul {
+      margin-left: 1.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .modal-body li {
+      margin-bottom: 0.5rem;
+      color: #475569;
+    }
     .webchat-container {
       position: fixed;
       bottom: 5px;
       right: 5px;
-      z-index: 1500;
+      z-index: -1;
       font-family: inherit;
     }
 
@@ -1225,6 +1315,7 @@ export class WebchatComponent implements OnInit, OnDestroy, AfterViewChecked {
   currentStepData = this.wizardService.getCurrentStepData();
   schemeMatches = this.wizardService.getSchemeMatches();
   schemes = this.wizardService.getSchemes();
+  
 
   // AI Assistant State
   messages = this.aiService.getMessages();
@@ -1237,6 +1328,16 @@ export class WebchatComponent implements OnInit, OnDestroy, AfterViewChecked {
     "Health insurance schemes",
     "Employment programs"
   ];
+
+  isVideo = signal<boolean>(false);
+
+  closeModal(): void {
+    this.isVideo.set(false);
+  }
+
+  showVideo(): void {
+    this.isVideo.set(true);
+  }
 
   constructor(
     private aiService: AIAssistantService,
@@ -1256,6 +1357,11 @@ export class WebchatComponent implements OnInit, OnDestroy, AfterViewChecked {
 
   ngOnDestroy(): void {
     // Cleanup if needed
+  }
+
+  setMessages(): void {
+    const schemes = this.wizardService.getSchemes()();
+    this.aiService.setMessages(schemes);
   }
 
   toggleChat(): void {
@@ -1280,6 +1386,7 @@ export class WebchatComponent implements OnInit, OnDestroy, AfterViewChecked {
     this.showChatMessages = true;
     this.showChatInput = true;
     this.showQuickSuggestions = true;
+
   }
 
   backToWelcome(): void {
