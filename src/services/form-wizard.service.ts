@@ -91,6 +91,10 @@ export class FormWizardService {
     this.schemes.set([]);
   }
 
+  boldify(message: string) {
+    return message.replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>");
+  }
+
   shouldShowField(field: any, formData: FormData): boolean {
     if (!field.conditionalDisplay) return true;
 
@@ -189,12 +193,15 @@ export class FormWizardService {
     }
   }
 
-    async findSchemes(): Promise<void> {
+    async findSchemes(text: string = ''): Promise<void> {
       this.isLoading.set(true);
-      let text = 'Recommend Financial Product for ';
-      for (let key in this.formData()) {
-        text += key + ' ' + this.formData()[key] + ' and ';
+      if (text === '') {
+        text = 'Recommend Financial Product for ';
+        for (let key in this.formData()) {
+          text += key + ' ' + this.formData()[key] + ' and ';
+        }
       }
+      
 
       try {
         // Simulate API delay
@@ -218,13 +225,13 @@ export class FormWizardService {
       for(let i=0; i < data.schemes.length; i++) {
         schemes.push({
           id: '',
-          title: data.schemes[i].name,
-          description: data.schemes[i].description,
+          title: this.boldify(data.schemes[i].name),
+          description: this.boldify(data.schemes[i].description),
           category: {
             id: '',
-            name: data.schemes[i].name,
+            name: this.boldify(data.schemes[i].name),
             icon: '',
-            description: data.schemes[i].description,
+            description: this.boldify(data.schemes[i].description),
             color: ''
           },
           ministry: '',
@@ -241,7 +248,7 @@ export class FormWizardService {
   
       const botMessage: ChatMessage = {
         id: this.generateMessageId(),
-        text: data.message || data.text || data.answer || '',
+        text: data.message || data.text || this.boldify(data.answer) || '',
         sender: 'bot',
         timestamp: new Date(),
         type: 'scheme-recommendation',

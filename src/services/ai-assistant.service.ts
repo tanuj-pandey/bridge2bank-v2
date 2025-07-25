@@ -204,13 +204,13 @@ export class AIAssistantService {
     for(let i=0; i < data.schemes.length; i++) {
       schemes.push({
         id: '',
-        title: data.schemes[i].name,
-        description: data.schemes[i].description,
+        title: this.boldify(data.schemes[i].name),
+        description: this.boldify(data.schemes[i].description),
         category: {
           id: '',
-          name: data.schemes[i].name,
+          name: this.boldify(data.schemes[i].name),
           icon: '',
-          description: data.schemes[i].description,
+          description: this.boldify(data.schemes[i].description),
           color: ''
         },
         ministry: '',
@@ -227,7 +227,7 @@ export class AIAssistantService {
 
     const botMessage: ChatMessage = {
       id: this.generateMessageId(),
-      text: data.message || data.text || data.answer || '',
+      text: data.message || data.text || this.boldify(data.answer) || '',
       sender: 'bot',
       timestamp: new Date(),
       type: 'scheme-recommendation',
@@ -601,6 +601,10 @@ export class AIAssistantService {
     this.messages.set([]);
     this.userProfile.set({});
     this.addWelcomeMessage();
+  }
+
+  boldify(message: string) {
+    return message.replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>");
   }
 
   // Method to update language from external sources

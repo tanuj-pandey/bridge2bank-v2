@@ -232,16 +232,16 @@ import { FormData, FormField } from '../../types/form-wizard.interface';
               class="message"
             >
               <div class="message-content">
-                <div class="message-text">{{ message.text }}</div>
+                <div class="message-text" [innerHTML]="message.text"></div>
                 <div class="message-schemes" *ngIf="message.schemes && message.schemes.length > 0">
                   <div class="schemes-grid">
                     <div 
                       *ngFor="let scheme of message.schemes.slice(0, 5)"
                       class="mini-scheme-card"
-                      (click)="viewSchemeDetails(scheme)"
+                      (click)="viewSchemeDetails(scheme, 'scheme')"
                     >
-                      <h6>{{ scheme.title }}</h6>
-                      <p>{{ scheme.description }}</p>
+                      <h6 [innerHTML]="scheme.title"></h6>
+                      <p [innerHTML]="scheme.description"></p>
                     </div>
                   </div>
                 </div>
@@ -276,7 +276,7 @@ import { FormData, FormField } from '../../types/form-wizard.interface';
                 <span *ngIf="message.sender === 'bot'">🤖</span>
               </div>
               <div class="message-content">
-                <div class="message-text">{{ message.text }}</div>
+                <div class="message-text" [innerHTML]="message.text"></div>
                 <div class="message-schemes" *ngIf="message.schemes && message.schemes.length > 0">
                   <div class="schemes-grid">
                     <div 
@@ -284,8 +284,8 @@ import { FormData, FormField } from '../../types/form-wizard.interface';
                       class="mini-scheme-card"
                       (click)="viewSchemeDetails(scheme)"
                     >
-                      <h6>{{ scheme.title }}</h6>
-                      <p>{{ scheme.description }}</p>
+                      <h6 [innerHTML]="scheme.title"></h6>
+                      <p [innerHTML]="scheme.description"></p>
                     </div>
                   </div>
                 </div>
@@ -1334,10 +1334,10 @@ export class WebchatComponent implements OnInit, OnDestroy, AfterViewChecked {
     await this.wizardService.findMatchingSchemes();
   }*/
 
-  async findSchemes(): Promise<void> {
+  async findSchemes(text: string = ''): Promise<void> {
     this.showResults = true;
     this.showSchemeFinder = false;
-    await this.wizardService.findSchemes();
+    await this.wizardService.findSchemes(text);
   }
 
   skipToResults(): void {
@@ -1366,9 +1366,14 @@ export class WebchatComponent implements OnInit, OnDestroy, AfterViewChecked {
     }
   }
 
-  viewSchemeDetails(scheme: any): void {
+  viewSchemeDetails(scheme: any, type: 'scheme' | 'chat' = 'chat'): void {
     // Handle scheme details view
     console.log('View scheme details:', scheme);
+    if (type === 'scheme') {
+      const inputText = scheme.title + ' and ' + scheme.description; 
+      this.findSchemes(inputText);
+    }
+
   }
 
   viewAllResults(): void {
