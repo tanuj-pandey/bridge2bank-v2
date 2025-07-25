@@ -88,6 +88,7 @@ export class FormWizardService {
     this.currentStep.set(0);
     this.formData.set({});
     this.schemeMatches.set([]);
+    this.schemes.set([]);
   }
 
   shouldShowField(field: any, formData: FormData): boolean {
