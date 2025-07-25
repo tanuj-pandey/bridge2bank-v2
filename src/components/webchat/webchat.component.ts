@@ -596,7 +596,10 @@ import { FormData, FormField } from '../../types/form-wizard.interface';
     .chat-content {
       flex: 1;
       overflow-y: auto;
-      background: var(--neutral-50);
+      background-image: url('fi.png');
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: cover;
     }
 
     .welcome-section {
